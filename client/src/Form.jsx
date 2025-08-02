@@ -23,13 +23,33 @@ const Form = () => {
          });
       }
 
-      useEffect(()=>{
+      function handleDelete(id){
+        fetch(`/api/userdatadelete/${id}`,{
+           method: "DELETE",
+        }).then((res) => {
+            return res.json();
+        }).then((result) => {
+            console.log(result);
+            // Refresh the data after deletion
+            fetchUserData();
+        }).catch((error) => {
+            console.error("Delete error:", error);
+        });
+      }
+
+      function fetchUserData() {
         fetch("/api/useralldata").then((res)=>{
           return res.json();
         }).then((result)=>{
            console.log(result);
            setUserAllData(result.Data);
+        }).catch((error) => {
+            console.error("Fetch error:", error);
         });
+      }
+
+      useEffect(()=>{
+        fetchUserData();
       },[]);
 
   return (
@@ -54,9 +74,19 @@ const Form = () => {
       {
         userAllData.map((items) =>(
            <ul key={items._id}>
-              <li>{items.user}</li>
-              <button>Update</button>
-              <button>Delete</button>           
+              <span>{ items.user }</span>
+
+              {/*Delete function*/}
+              <button onClick={() => {
+                handleDelete(items._id)}}
+                >Delete
+              </button>
+
+              {/*Update function*/}
+              <button onClick={() => {
+                handleUpdate(items._id)}}
+                >Update
+              </button>           
             </ul>
         ))
       }
