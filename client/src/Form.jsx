@@ -55,8 +55,8 @@ const Form = () => {
         userAllData.map((items) =>(
            <ul key={items._id}>
               <li>{items.user}</li>
-              <button></button>
-              <button></button>           
+              <button>Update</button>
+              <button>Delete</button>           
             </ul>
         ))
       }
