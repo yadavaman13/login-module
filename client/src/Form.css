@@ -6,6 +6,10 @@
     border-radius: 20px;
     padding: 5vh 5vw;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: white;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 50px;
 }
 
 .form-container {
@@ -53,4 +57,200 @@
     font-size: 1vw;
     border-radius: 10px;
     background-color:#ff9966;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #ff7733;
+}
+
+.submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Firebase Auth Specific Styles */
+.error-message {
+    background-color: #fee;
+    color: #c33;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #fcc;
+    width: 100%;
+}
+
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    width: 100%;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #ddd;
+}
+
+.divider span {
+    background: white;
+    padding: 0 15px;
+    color: #999;
+    font-size: 14px;
+}
+
+.google-signin-button {
+    width: 100%;
+    padding: 15px;
+    background: #fff;
+    color: #333;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+}
+
+.google-signin-button:hover:not(:disabled) {
+    border-color: #4285f4;
+    background: #f8f9ff;
+}
+
+.google-signin-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.google-icon {
+    color: #4285f4;
+}
+
+.auth-switch {
+    text-align: center;
+}
+
+.auth-switch p {
+    color: #666;
+    margin: 0;
+}
+
+.switch-button {
+    background: none;
+    border: none;
+    color: #ff9966;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: inherit;
+}
+
+.switch-button:hover {
+    color: #ff7733;
+}
+
+/* User Dashboard Styles */
+.user-dashboard {
+    width: 100%;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    color: #333;
+}
+
+.logout-button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout-button:hover {
+    background: #c82333;
+}
+
+.profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 10px auto;
+    display: block;
+    border: 2px solid #ff9966;
+}
+
+.user-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.user-info p {
+    margin: 8px 0;
+    color: #555;
+}
+
+.logged-in-form {
+    margin-top: 20px;
+}
+
+.logged-in-form h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.user-data {
+    margin-top: 20px;
+}
+
+.user-data h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.user-data ul {
+    background: #f8f9fa;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-data button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.user-data button:hover {
+    background: #c82333;
 }
