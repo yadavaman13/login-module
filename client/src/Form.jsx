@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 
 const Form = () => {
 
       const[username, setUserName] = useState("");
       const[password, setPassword] = useState("");
+
+      const[userAllData,setUserAllData] = useState([])
 
       function handleForm(e){
          e.preventDefault();
@@ -20,6 +22,15 @@ const Form = () => {
             console.log(result);
          });
       }
+
+      useEffect(()=>{
+        fetch("/api/useralldata").then((res)=>{
+          return res.json();
+        }).then((result)=>{
+           console.log(result);
+           setUserAllData(result.Data);
+        });
+      },[]);
 
   return (
     <div>
@@ -40,6 +51,15 @@ const Form = () => {
 
         <input type="submit" value="Submit" />
       </form>
+      {
+        userAllData.map((items) =>(
+           <ul key={items._id}>
+              <li>{items.user}</li>
+              <button></button>
+              <button></button>           
+            </ul>
+        ))
+      }
     </div>
   )
 }
