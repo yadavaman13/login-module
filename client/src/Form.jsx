@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import './Form.css'
 
 const Form = () => {
 
@@ -53,21 +54,21 @@ const Form = () => {
       },[]);
 
   return (
-    <div>
+    <div className="login-container">
       <h1>Login</h1>
-      <form action="" onSubmit={handleForm}>
-
-        <label>Username</label>
-        <input type="text" name="" id="" value={username} onChange={(e)=>{
-            setUserName(e.target.value)
-            }}
-        />
-
-        <label>Password</label>
-        <input type="text" name="" id="" value={password} onChange={(e)=>{
-            setPassword(e.target.value)
+      <form className="form-container" action="" onSubmit={handleForm}>
+        <div >
+          <input className="input-container" placeholder="Username" type="text" name="" id="" value={username} onChange={(e)=>{
+              setUserName(e.target.value)
+              }}
+          />
+        </div>
+        <div>
+          <input className="input-container" placeholder="Password" type="text" name="" id="" value={password} onChange={(e)=>{
+              setPassword(e.target.value)
             }} 
         />
+        </div>
 
         <input type="submit" value="Submit" />
       </form>
