@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Form.css'
+import { RiUserLine , RiLockLine } from "@remixicon/react";
 
 const Form = () => {
 
@@ -57,20 +57,22 @@ const Form = () => {
     <div className="login-container">
       <h1>Login</h1>
       <form className="form-container" action="" onSubmit={handleForm}>
-        <div >
+        <div className='input-wrapper'>
+          <RiUserLine className="input-icon" />
           <input className="input-container" placeholder="Username" type="text" name="" id="" value={username} onChange={(e)=>{
               setUserName(e.target.value)
               }}
           />
         </div>
-        <div>
+        <div className='input-wrapper'>
+          <RiLockLine className="input-icon" />
           <input className="input-container" placeholder="Password" type="text" name="" id="" value={password} onChange={(e)=>{
               setPassword(e.target.value)
             }} 
         />
         </div>
 
-        <input type="submit" value="Submit" />
+        <input className='submit-button' type="submit" value="Submit" />
       </form>
       {
         userAllData.map((items) =>(
