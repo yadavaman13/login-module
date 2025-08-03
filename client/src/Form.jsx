@@ -118,7 +118,7 @@ const Form = () => {
                   Logout
                 </button>
               </div>
-              
+               
               {currentUser.photoURL && (
                 <img 
                   src={currentUser.photoURL} 
@@ -132,27 +132,6 @@ const Form = () => {
                 <p><strong>UID:</strong> {currentUser.uid}</p>
                 <p><strong>Email Verified:</strong> {currentUser.emailVerified ? 'Yes' : 'No'}</p>
               </div>
-
-  return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <form className="form-container" action="" onSubmit={handleForm}>
-        <div className='input-wrapper'>
-          <RiUserLine className="input-icon" />
-          <input className="input-container" placeholder="Username" type="text" name="" id="" value={username} onChange={(e)=>{
-              setUserName(e.target.value)
-              }}
-          />
-        </div>
-        <div className='input-wrapper'>
-          <RiLockLine className="input-icon" />
-          <input className="input-container" placeholder="Password" type="text" name="" id="" value={password} onChange={(e)=>{
-              setPassword(e.target.value)
-            }} 
-        />
-        </div>
-        
-        <h3>New User?<a href='#'>Register Now</a></h3>
 
               {/* Original form for logged-in users */}
               <div className="logged-in-form">
