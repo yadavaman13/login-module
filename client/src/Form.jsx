@@ -71,6 +71,8 @@ const Form = () => {
             }} 
         />
         </div>
+        
+        <h3>New User?<a href='#'>Register Now</a></h3>
 
         <input className='submit-button' type="submit" value="Submit" />
       </form>
