@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import './Form.css'
+import './App.css'
+
 import { RiUserLine , RiLockLine } from "@remixicon/react";
 
 const Form = () => {
@@ -57,7 +58,7 @@ const Form = () => {
     <div className="login-container">
       <h1>Login</h1>
       <form className="form-container" action="" onSubmit={handleForm}>
-        <div className='input-wrapper'>
+        <div className='input-wrapper '>
           <RiUserLine className="input-icon" />
           <input className="input-container" placeholder="Username" type="text" name="" id="" value={username} onChange={(e)=>{
               setUserName(e.target.value)
