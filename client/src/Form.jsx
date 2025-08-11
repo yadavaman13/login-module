@@ -1,66 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import './Form.css'
 import { RiUserLine, RiLockLine, RiGoogleFill } from "@remixicon/react";
-import { useAuth } from './contexts/AuthContext';
+// import { useAuth } from './contexts/AuthContext';
 
 const Form = () => {
-      // Firebase Auth states
-      const { currentUser, signup, login, signInWithGoogle, logout } = useAuth();
+      // Local auth states
       const [isLogin, setIsLogin] = useState(true);
       const [email, setEmail] = useState("");
+      const [password, setPassword] = useState("");
       const [confirmPassword, setConfirmPassword] = useState("");
-      const [authError, setAuthError] = useState('');
+      const [authError, setAuthError] = useState("");
       const [authLoading, setAuthLoading] = useState(false);
+      const [loggedInUser, setLoggedInUser] = useState(null);
 
       // Original form states
       const[username, setUserName] = useState("");
       const[password, setPassword] = useState("");
       const[userAllData,setUserAllData] = useState([]);
 
-      // Firebase Auth functions
-      const handleFirebaseAuth = async (e) => {
-        e.preventDefault();
-        
-        if (!isLogin && password !== confirmPassword) {
-          return setAuthError('Passwords do not match');
-        }
-
-        try {
-          setAuthError('');
-          setAuthLoading(true);
-          
-          if (isLogin) {
-            await login(email, password);
-          } else {
-            await signup(email, password);
-          }
-        } catch (error) {
-          setAuthError('Failed to ' + (isLogin ? 'log in' : 'create account'));
-          console.error(error);
-        }
-        
-        setAuthLoading(false);
-      };
-
-      const handleGoogleSignIn = async () => {
-        try {
-          setAuthError('');
-          setAuthLoading(true);
-          await signInWithGoogle();
-        } catch (error) {
-          setAuthError('Failed to sign in with Google');
-          console.error(error);
-        }
-        setAuthLoading(false);
-      };
-
-      const handleLogout = async () => {
-        try {
-          await logout();
-        } catch (error) {
-          setAuthError('Failed to log out');
-        }
-      };
 
       // Original form functions
       function handleForm(e){
@@ -107,32 +64,20 @@ const Form = () => {
       },[]);
 
 
-      // If user is logged in with Firebase, show user dashboard
-      if (currentUser) {
+      // If user is logged in locally, show user dashboard
+      if (loggedInUser) {
         return (
           <div className="login-container">
             <div className="user-dashboard">
               <div className="dashboard-header">
-                <h1>Welcome, {currentUser.displayName || currentUser.email}!</h1>
-                <button onClick={handleLogout} className="logout-button">
+                <h1>Welcome, {loggedInUser.email}!</h1>
+                <button onClick={() => { setLoggedInUser(null); }} className="logout-button">
                   Logout
                 </button>
               </div>
-               
-              {currentUser.photoURL && (
-                <img 
-                  src={currentUser.photoURL} 
-                  alt="Profile" 
-                  className="profile-image"
-                />
-              )}
-              
               <div className="user-info">
-                <p><strong>Email:</strong> {currentUser.email}</p>
-                <p><strong>UID:</strong> {currentUser.uid}</p>
-                <p><strong>Email Verified:</strong> {currentUser.emailVerified ? 'Yes' : 'No'}</p>
+                <p><strong>Email:</strong> {loggedInUser.email}</p>
               </div>
-
               {/* Original form for logged-in users */}
               <div className="logged-in-form">
                 <h2>Add Data</h2>
@@ -159,7 +104,6 @@ const Form = () => {
                   </div>
                   <input className='submit-button' type="submit" value="Submit" />
                 </form>
-
                 {/* Display user data */}
                 <div className="user-data">
                   <h3>Your Data:</h3>
@@ -178,15 +122,42 @@ const Form = () => {
         );
       }
 
-      // If user is not logged in, show Firebase auth form
+      // If user is not logged in, show local login/signup form
+      function handleAuthForm(e) {
+        e.preventDefault();
+        setAuthError("");
+        setAuthLoading(true);
+        if (!isLogin && password !== confirmPassword) {
+          setAuthError("Passwords do not match");
+          setAuthLoading(false);
+          return;
+        }
+        const endpoint = isLogin ? "/api/login" : "/api/register";
+        fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              setLoggedInUser({ email });
+            } else {
+              setAuthError(result.message || "Authentication failed");
+            }
+            setAuthLoading(false);
+          })
+          .catch(() => {
+            setAuthError("Network error");
+            setAuthLoading(false);
+          });
+      }
+
       return (
         <div className="login-container">
           <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-          
           {authError && <div className="error-message">{authError}</div>}
-          
-          {/* Firebase Authentication Form */}
-          <form className="form-container" onSubmit={handleFirebaseAuth}>
+          <form className="form-container" onSubmit={handleAuthForm}>
             <div className='input-wrapper'>
               <RiUserLine className="input-icon" />
               <input
@@ -198,7 +169,6 @@ const Form = () => {
                 required
               />
             </div>
-            
             <div className='input-wrapper'>
               <RiLockLine className="input-icon" />
               <input
@@ -210,7 +180,6 @@ const Form = () => {
                 required
               />
             </div>
-            
             {!isLogin && (
               <div className='input-wrapper'>
                 <RiLockLine className="input-icon" />
@@ -224,7 +193,6 @@ const Form = () => {
                 />
               </div>
             )}
-            
             <button 
               type="submit" 
               disabled={authLoading}
@@ -233,20 +201,6 @@ const Form = () => {
               {authLoading ? 'Loading...' : (isLogin ? 'Login' : 'Sign Up')}
             </button>
           </form>
-          
-          <div className="divider">
-            <span>OR</span>
-          </div>
-          
-          <button 
-            onClick={handleGoogleSignIn}
-            disabled={authLoading}
-            className="google-signin-button"
-          >
-            <RiGoogleFill className="google-icon" />
-            {authLoading ? 'Loading...' : 'Sign in with Google'}
-          </button>
-          
           <div className="auth-switch">
             <p>
               {isLogin ? "Don't have an account? " : "Already have an account? "}
